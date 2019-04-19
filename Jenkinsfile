@@ -57,7 +57,7 @@ def withRvm(version, cl) {
     ]
     def path = paths.join(':')
     withEnv(["PATH=${env.PATH}:$RVM_HOME", "RVM_HOME=$RVM_HOME"]) {
-        sh ". $RVM_HOME/scripts/rvm; rvm use --create --install --binary $version"
+        sh ". $RVM_HOME/bin/rvm env $version@global --path; rvm use --create --install --binary $version"
     }
     withEnv([
         "PATH=$path",
