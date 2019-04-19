@@ -48,12 +48,6 @@ def withCleanup(Closure cl) {
 }
 
 def withRvm(version, cl) {
-    withRvm(version) {
-        cl()
-    }
-}
-
-def withRvm(version, cl) {
     RVM_HOME='/usr/local/rvm'
     paths = [
         "$RVM_HOME/gems/$version@global/bin",
@@ -72,8 +66,8 @@ def withRvm(version, cl) {
         "MY_RUBY_HOME=$RVM_HOME/rubies/$version",
         "IRBRC=$RVM_HOME/rubies/$version/.irbrc",
         "RUBY_VERSION=$version"
-        ]) {
-            sh 'gem install bundler'
-            cl()
-        }
+    ]) {
+        sh 'gem install bundler'
+        cl()
     }
+}
