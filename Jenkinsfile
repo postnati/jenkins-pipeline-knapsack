@@ -57,7 +57,7 @@ def withRvm(version, cl) {
     ]
     def path = paths.join(':')
     withEnv(["PATH=${env.PATH}:$RVM_HOME", "RVM_HOME=$RVM_HOME"]) {
-        sh ". /usr/local/rvm/environments/ruby-2.3.1; rvm use --create --install --binary $version"
+        sh ". /usr/local/rvm/environments/ruby-2.3.1; /usr/local/rvm/bin/rvm use --create --install --binary $version"
     }
     withEnv([
         "PATH=$path",
