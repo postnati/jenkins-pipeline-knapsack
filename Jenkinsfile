@@ -67,7 +67,6 @@ def withRvm(version, cl) {
         "IRBRC=$RVM_HOME/rubies/$version/.irbrc",
         "RUBY_VERSION=$version"
     ]) {
-        sh 'gem install bundler'
         cl()
     }
 }
