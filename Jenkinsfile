@@ -48,15 +48,14 @@ def withCleanup(Closure cl) {
 }
 
 def withRvm(version, cl) {
-    withRvm(version, "executor-${env.EXECUTOR_NUMBER}") {
+    withRvm(version) {
         cl()
     }
 }
 
-def withRvm(version, gemset, cl) {
+def withRvm(version, cl) {
     RVM_HOME='/usr/local/rvm'
     paths = [
-        "$RVM_HOME/gems/$version@$gemset/bin",
         "$RVM_HOME/gems/$version@global/bin",
         "$RVM_HOME/rubies/$version/bin",
         "$RVM_HOME/bin",
@@ -64,12 +63,12 @@ def withRvm(version, gemset, cl) {
     ]
     def path = paths.join(':')
     withEnv(["PATH=${env.PATH}:$RVM_HOME", "RVM_HOME=$RVM_HOME"]) {
-        sh "set +x; source $RVM_HOME/scripts/rvm; rvm use --create --install --binary $version@$gemset"
+        sh "set +x; source $RVM_HOME/scripts/rvm; rvm use --create --install --binary $version"
     }
     withEnv([
         "PATH=$path",
-        "GEM_HOME=$RVM_HOME/gems/$version@$gemset",
-        "GEM_PATH=$RVM_HOME/gems/$version@$gemset:$RVM_HOME/gems/$version@global",
+        "GEM_HOME=$RVM_HOME/gems/$version@global",
+        "GEM_PATH=$RVM_HOME/gems/$version@global",
         "MY_RUBY_HOME=$RVM_HOME/rubies/$version",
         "IRBRC=$RVM_HOME/rubies/$version/.irbrc",
         "RUBY_VERSION=$version"
